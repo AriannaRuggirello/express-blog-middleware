@@ -16,8 +16,12 @@ const express = require("express");
 const dotenv =require('dotenv').config();
 // importo il controller
 const homecontroller = require('./controller/home');
+
 // importo il router
 const postsRouter = require ('./router/posts');
+const adminRouter = require("./router/admin");
+const authRouter = require("./router/auth");
+
 // esporto il middleware degli errori
 const errorsFormatterMiddleware = require("./middlewares/errorsFormatter");
 const routesLoggerMiddleware = require("./middlewares/routesLogger");
@@ -34,11 +38,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // middleware 
-app.use(routesLoggerMiddleware)
+// app.use(routesLoggerMiddleware)
 
 // Rotte relative all'entità pizze
 app.use("/posts", postsRouter)
-
+// Rotte relative all'entità admin che saranno protette
+app.use("/admin", adminRouter);
+// Rotte relative all'entità auth 
+app.use("/", authRouter)
 
     // Gestione degli errori
 app.use(errorsFormatterMiddleware)
@@ -46,6 +53,6 @@ app.use(errorsFormatterMiddleware)
 app.use(error404Middleware)
 
 // avviamo il server
-app.listen(process.env.PORT || 3000, ()=>{
+app.listen(process.env.PORT || 1998, ()=>{
     console.log(`server running on http://localhost:${process.env.PORT}`);
 });
