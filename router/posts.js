@@ -13,8 +13,8 @@ router.get('/', homecontroller.index);
 
 // show
 router.get('/:slug', homecontroller.show);
-// create
-router.get('/create', homecontroller.create);
+// // create
+// router.get('/create',homecontroller.create);
 // store
 router.post('/',homecontroller.store);
 // destroy

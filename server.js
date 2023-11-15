@@ -1,11 +1,13 @@
 // Esercizio
-// Per il nostro blog, concentriamoci sul creare 2 rotte:
+// Impariamo ad utilizzare i middleware e quindi gestiamo gli errori e le pagine 404.
+// Questi middleware dovranno rispondere con un json contente il codice ed il messaggio dell’errore.Creiamo le seguenti rotte:
 
-//     / [POST] - rotta store del crud che riceverà dei dati e creerà un nuovo post. Questa dovrà riceve i dati in formato application/x-www-urlencoded e dovrà ritornare un redirect nel caso di richiesta html, altrimenti di default il json dell’elemento appena creato
-//     /:slug [DELETE] - rotta destroy del crud che dovrà ritornare un 404 nel caso non sia stato trovato un post corrispondente. Ritornare un redirect nel caso di richiesta html, altrimenti di default del testo con scritto “post eliminato”
+//     home
+//     posts/ (index)
+//     posts/ (store)
+//     posts/:slug (show)
 
-// Tutte le funzioni delle rotte dovranno essere scritte nel controller dedicato.
-// Testare le rotte tramite Postman.
+// Tramite JTW creiamo una rotta per autenticare un utente ed ottenere il Token JWT e tramite un middleware limitiamo l’accesso alla rota store dei post ai soli utenti loggati.Svolgiamo tutto l’esercizio tramite relativi controller e router.
 
 
 const express = require("express");
@@ -16,7 +18,10 @@ const dotenv =require('dotenv').config();
 const homecontroller = require('./controller/home');
 // importo il router
 const postsRouter = require ('./router/posts');
-
+// esporto il middleware degli errori
+const errorsFormatterMiddleware = require("./middlewares/errorsFormatter");
+const routesLoggerMiddleware = require("./middlewares/routesLogger");
+const error404Middleware=require("./middlewares/error404");
 // creo istanza express
 const app=express();
 
@@ -28,9 +33,17 @@ app.use(express.urlencoded({ extended: true }));
 // configuro i file statici
 app.use(express.static("public"));
 
+// middleware 
+app.use(routesLoggerMiddleware)
 
-    // Rotte relative all'entità pizze
-    app.use("/posts", postsRouter)
+// Rotte relative all'entità pizze
+app.use("/posts", postsRouter)
+
+
+    // Gestione degli errori
+app.use(errorsFormatterMiddleware)
+// error 404
+app.use(error404Middleware)
 
 // avviamo il server
 app.listen(process.env.PORT || 3000, ()=>{
