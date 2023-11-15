@@ -1,5 +1,4 @@
-const fs = require("fs");
-const path = require("path");
+
 
 /**
  * Questo middleware ha 4 argomenti, 
@@ -11,16 +10,13 @@ const path = require("path");
  * @param {*} next 
  */
 module.exports = function (err, req, res, next) {
-  res.format({
-    json: () => {
+ 
+
       res.status(500).json({
-        message: "Oops, mi sa che qualcosa è andato storto",
+        message: "error 500!internal server",
         error: err.message,
   
       });
-    },
-    default: () => {
-      res.status(500).send("<h1>Oops, mi sa che qualcosa è andato storto</h1>");
-    },
-  });
-};
+  
+  
+}
