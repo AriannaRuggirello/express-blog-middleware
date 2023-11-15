@@ -45,7 +45,7 @@ app.use("/posts", postsRouter)
 // Rotte relative all'entità admin che saranno protette
 app.use("/admin", adminRouter);
 // Rotte relative all'entità auth 
-app.use("/", authRouter)
+app.use("/login", authRouter)
 
     // Gestione degli errori
 app.use(errorsFormatterMiddleware)
