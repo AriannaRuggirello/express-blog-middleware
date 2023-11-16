@@ -30,6 +30,7 @@ const token = bearerToken.split(" ")[1];
 
 // console.log(jwtPayload);
 // decido se passa o no 
-
+// aggiungi la chiave user all'interno della request è il valore sara il payload
+req['user']= jwtPayload
 next();
 };
